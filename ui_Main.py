@@ -50,10 +50,17 @@ class Ui_Main(QtWidgets.QWidget):
         """
 
     def Window2UI(self):
+        self.FontColor = "color: #839496"
+        self.BackColor = "background-color: #fdf6e3;"
+
         self.stack2.setFixedSize(800, 480)
+        self.stack2.setStyleSheet(self.BackColor)
+
+        self.darkBtn = QtWidgets.QPushButton('Dark')
+        self.darkBtn.setCheckable(True)
+
 
         layout = QtWidgets.QGridLayout()
-        layout.setColumnStretch(10, 10)
 
         self.linkBtn = QtWidgets.QPushButton(self.stack2)
         self.linkBtn.setText("Link")
@@ -69,6 +76,16 @@ class Ui_Main(QtWidgets.QWidget):
         bioT = QtWidgets.QLabel("Bio:")
         dateT = QtWidgets.QLabel("Date:")
         textT = QtWidgets.QLabel("Tweet:")
+
+        self.labelSheets = "font-family: Times New Roman, Times, sans-serif;" \
+                      "color: #cb4b16;"
+
+        userT.setStyleSheet(self.labelSheets)
+        usernameT.setStyleSheet(self.labelSheets)
+        homeTownT.setStyleSheet(self.labelSheets)
+        bioT.setStyleSheet(self.labelSheets)
+        dateT.setStyleSheet(self.labelSheets)
+        textT.setStyleSheet(self.labelSheets)
 
         layout.addWidget(userT, 0, 0)
         layout.addWidget(usernameT, 1, 0)
@@ -92,12 +109,14 @@ class Ui_Main(QtWidgets.QWidget):
         self.textL.setWordWrap(True)
 
         self.userL.setFixedWidth(145)
-        self.userL.setFixedHeight(20)
+        self.userL.setFixedHeight(40)
         self.usernameL.setFixedWidth(145)
         self.homeTownL.setFixedWidth(145)
         self.bioL.setFixedWidth(145)
         self.dateL.setFixedWidth(145)
         self.textL.setFixedWidth(400)
+
+        self.textL.setStyleSheet(self.FontColor)
 
         layout.addWidget(self.userL, 0, 1)
         layout.addWidget(self.usernameL, 1, 1)
@@ -108,6 +127,7 @@ class Ui_Main(QtWidgets.QWidget):
 
         layout.addWidget(self.linkBtn, 5, 2)
         layout.addWidget(self.nextBtn, 5, 3)
+        layout.addWidget(self.darkBtn, 0, 5)
         self.stack2.setLayout(layout)
 
         #self.stack2.setStyleSheet("background: red")

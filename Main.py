@@ -1,6 +1,6 @@
 """
 To Do: 1. Remove non ASCII text
-       2. Make look Pretty
+       2. Make look Pretty (in Progress)
        3. add extra features (count)
        4. Maybe analysis?
        5. make it display on first click
@@ -14,7 +14,6 @@ import pandas as pd
 from pandas import DataFrame
 from twython import Twython
 import webbrowser
-import urllib.request
 
 from ui_Main import Ui_Main
 
@@ -26,9 +25,9 @@ class Main(QMainWindow, Ui_Main):
         self.setupUi(self)
 
         self.index1 = 0
-
         self.submitBtn.clicked.connect(self.OpenWindow1)
         self.linkBtn.clicked.connect(self.openLink)
+
 
     def OpenWindow1(self):
 
@@ -51,6 +50,7 @@ class Main(QMainWindow, Ui_Main):
 
         geocode = '40.006038,-105.257716,10mi'  # latitude,longitude,distance(mi/km)
         queryI = 'fuck'
+
         count = 10
 
         # make a Dict that has all fo the categorizes
@@ -107,6 +107,32 @@ class Main(QMainWindow, Ui_Main):
         self.dateL.setText(self.dict_['date'][self.index1])
         self.textL.setText(self.dict_['text'][self.index1])
         self.index1 = self.index1+1
+
+        if self.darkBtn.isChecked():
+            self.BackColor = "background-color: #002b36;"
+            self.FontColor = "color: #fdf6e3"
+
+            self.textL.setStyleSheet(self.FontColor)
+            self.dateL.setStyleSheet(self.FontColor)
+            self.bioL.setStyleSheet(self.FontColor)
+            self.homeTownL.setStyleSheet(self.FontColor)
+            self.usernameL.setStyleSheet(self.FontColor)
+            self.userL.setStyleSheet(self.FontColor)
+
+            self.stack2.setStyleSheet(self.BackColor)
+
+        elif not self.darkBtn.isChecked():
+            self.BackColor = "background-color: #fdf6e3;"
+            self.FontColor = "color: #839496"
+
+            self.textL.setStyleSheet(self.FontColor)
+            self.dateL.setStyleSheet(self.FontColor)
+            self.bioL.setStyleSheet(self.FontColor)
+            self.homeTownL.setStyleSheet(self.FontColor)
+            self.usernameL.setStyleSheet(self.FontColor)
+            self.userL.setStyleSheet(self.FontColor)
+
+            self.stack2.setStyleSheet(self.BackColor)
 
 
 if __name__ == '__main__':
