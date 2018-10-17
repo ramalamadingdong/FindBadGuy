@@ -2,8 +2,11 @@
 To Do: 1. Remove non ASCII text
        2. Make look Pretty (in Progress)
        3. add extra features (count)
-       4. Maybe analysis?
+       4. Maybe analysis? (#ofTweets, )
        5. make it display on first click
+       6. Link to link (in tweet)
+       7. Save button for tweets
+       8. Save the settings
 
 """
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -35,7 +38,8 @@ class Main(QMainWindow, Ui_Main):
         query = self.query.text()
         geo = self.query.text()
         self.getData(query, geo)
-        self.nextBtn.clicked.connect(self.setLabel)
+        self.nextBtn.clicked.connect(self.nextBadGuy)
+        self.prevBtn.clicked.connect(self.prevBadGuy)
 
     def getData(self, queryT, geoT):
         with open("twitter_creds.JSON", "r") as file:
@@ -49,9 +53,9 @@ class Main(QMainWindow, Ui_Main):
         queryI = queryT
 
         geocode = '40.006038,-105.257716,10mi'  # latitude,longitude,distance(mi/km)
-        queryI = 'fuck'
+        queryI = 'drugs'
 
-        count = 10
+        count = 9999
 
         # make a Dict that has all fo the categorizes
 
@@ -99,7 +103,7 @@ class Main(QMainWindow, Ui_Main):
     def openLink(self):
         webbrowser.open(self.dict_['ID'][self.index1-1])  # Go to example.com
 
-    def setLabel(self):
+    def nextBadGuy(self):
         self.userL.setText(self.dict_['user'][self.index1])
         self.usernameL.setText(self.dict_['username'][self.index1])
         self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
@@ -122,8 +126,46 @@ class Main(QMainWindow, Ui_Main):
             self.stack2.setStyleSheet(self.BackColor)
 
         elif not self.darkBtn.isChecked():
-            self.BackColor = "background-color: #fdf6e3;"
-            self.FontColor = "color: #839496"
+            self.BackColor = "background-color: #eee8d5;"
+            self.FontColor = "color: #657b83"
+
+            self.textL.setStyleSheet(self.FontColor)
+            self.dateL.setStyleSheet(self.FontColor)
+            self.bioL.setStyleSheet(self.FontColor)
+            self.homeTownL.setStyleSheet(self.FontColor)
+            self.usernameL.setStyleSheet(self.FontColor)
+            self.userL.setStyleSheet(self.FontColor)
+
+            self.stack2.setStyleSheet(self.BackColor)
+
+    def prevBadGuy(self):
+
+        self.index1 = self.index1 - 2
+
+        self.userL.setText(self.dict_['user'][self.index1])
+        self.usernameL.setText(self.dict_['username'][self.index1])
+        self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
+        self.bioL.setText(self.dict_['Bio'][self.index1])
+        self.dateL.setText(self.dict_['date'][self.index1])
+        self.textL.setText(self.dict_['text'][self.index1])
+        self.index1 = self.index1+1
+
+        if self.darkBtn.isChecked():
+            self.BackColor = "background-color: #002b36;"
+            self.FontColor = "color: #fdf6e3"
+
+            self.textL.setStyleSheet(self.FontColor)
+            self.dateL.setStyleSheet(self.FontColor)
+            self.bioL.setStyleSheet(self.FontColor)
+            self.homeTownL.setStyleSheet(self.FontColor)
+            self.usernameL.setStyleSheet(self.FontColor)
+            self.userL.setStyleSheet(self.FontColor)
+
+            self.stack2.setStyleSheet(self.BackColor)
+
+        elif not self.darkBtn.isChecked():
+            self.BackColor = "background-color: #eee8d5;"
+            self.FontColor = "color: #657b83"
 
             self.textL.setStyleSheet(self.FontColor)
             self.dateL.setStyleSheet(self.FontColor)

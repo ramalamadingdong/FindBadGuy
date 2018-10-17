@@ -42,13 +42,6 @@ class Ui_Main(QtWidgets.QWidget):
 
         self.stack1.setLayout(layout)
 
-        """
-        #PushButton2
-        self.PushButton2 = QtWidgets.QPushButton(self.stack1)
-        self.PushButton2.setText("BUTTON 2")
-        self.PushButton2.setGeometry(QtCore.QRect(150, 150, 100, 100))
-        """
-
     def Window2UI(self):
         self.FontColor = "color: #839496"
         self.BackColor = "background-color: #fdf6e3;"
@@ -58,7 +51,6 @@ class Ui_Main(QtWidgets.QWidget):
 
         self.darkBtn = QtWidgets.QPushButton('Dark')
         self.darkBtn.setCheckable(True)
-
 
         layout = QtWidgets.QGridLayout()
 
@@ -70,29 +62,31 @@ class Ui_Main(QtWidgets.QWidget):
         self.nextBtn.setText("Next")
         self.nextBtn.setGeometry(QtCore.QRect(10, 10, 100, 100))
 
+        self.prevBtn = QtWidgets.QPushButton(self.stack2)
+        self.prevBtn.setText("Previous")
+        self.prevBtn.setGeometry(QtCore.QRect(10, 10, 100, 100))
+
         userT = QtWidgets.QLabel("User:")
         usernameT = QtWidgets.QLabel("Username:")
-        homeTownT = QtWidgets.QLabel("Home Town:")
         bioT = QtWidgets.QLabel("Bio:")
-        dateT = QtWidgets.QLabel("Date:")
-        textT = QtWidgets.QLabel("Tweet:")
 
-        self.labelSheets = "font-family: Times New Roman, Times, sans-serif;" \
-                      "color: #cb4b16;"
+        homeTownT = QtWidgets.QLabel("Home:")
+        dateT = QtWidgets.QLabel("Date:")
+
+        self.labelSheets = "color: #dc322f;"
 
         userT.setStyleSheet(self.labelSheets)
         usernameT.setStyleSheet(self.labelSheets)
         homeTownT.setStyleSheet(self.labelSheets)
         bioT.setStyleSheet(self.labelSheets)
         dateT.setStyleSheet(self.labelSheets)
-        textT.setStyleSheet(self.labelSheets)
 
-        layout.addWidget(userT, 0, 0)
-        layout.addWidget(usernameT, 1, 0)
-        layout.addWidget(homeTownT, 2, 0)
-        layout.addWidget(bioT, 3, 0)
-        layout.addWidget(dateT, 4, 0)
-        layout.addWidget(textT, 0, 2)
+        layout.addWidget(userT, 0, 1, 0, 1, QtCore.Qt.AlignTop)
+        layout.addWidget(usernameT, 1, 1, 1, 1, QtCore.Qt.AlignTop)
+        layout.addWidget(bioT, 2, 1, 2, 1, QtCore.Qt.AlignTop)
+
+        layout.addWidget(dateT, 0, 3, 0, 3, QtCore.Qt.AlignTop)
+        layout.addWidget(homeTownT, 1, 3, 1, 3, QtCore.Qt.AlignTop)
 
         self.userL = QtWidgets.QLabel()
         self.usernameL = QtWidgets.QLabel()
@@ -101,6 +95,8 @@ class Ui_Main(QtWidgets.QWidget):
         self.dateL = QtWidgets.QLabel()
         self.textL = QtWidgets.QLabel()
 
+        self.textL.setFixedWidth(350)
+
         self.userL.setWordWrap(True)
         self.usernameL.setWordWrap(True)
         self.homeTownL.setWordWrap(True)
@@ -108,26 +104,33 @@ class Ui_Main(QtWidgets.QWidget):
         self.dateL.setWordWrap(True)
         self.textL.setWordWrap(True)
 
-        self.userL.setFixedWidth(145)
-        self.userL.setFixedHeight(40)
-        self.usernameL.setFixedWidth(145)
-        self.homeTownL.setFixedWidth(145)
-        self.bioL.setFixedWidth(145)
-        self.dateL.setFixedWidth(145)
-        self.textL.setFixedWidth(400)
+        layout.addWidget(self.textL, 0, 0, 0, 0, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
 
-        self.textL.setStyleSheet(self.FontColor)
 
-        layout.addWidget(self.userL, 0, 1)
-        layout.addWidget(self.usernameL, 1, 1)
-        layout.addWidget(self.homeTownL, 2, 1)
-        layout.addWidget(self.bioL, 3, 1)
-        layout.addWidget(self.dateL, 4, 1)
-        layout.addWidget(self.textL, 0, 3)
+        layout.addWidget(self.userL, 0, 2, 0, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
+        layout.addWidget(self.usernameL, 1, 2, 1, 2, QtCore.Qt.AlignTop)
+        layout.addWidget(self.bioL, 2, 2, 2, 2, QtCore.Qt.AlignTop)
 
-        layout.addWidget(self.linkBtn, 5, 2)
+        layout.addWidget(self.homeTownL, 1, 4, 1, 4, QtCore.Qt.AlignTop)
+        layout.addWidget(self.dateL, 0, 4, 0, 4, QtCore.Qt.AlignTop)
+
+        self.linkBtn.setStyleSheet("QPushButton { background-color: blue }"
+                                   "QPushButton:pressed { background-color: red }")
+
+        self.nextBtn.setStyleSheet("QPushButton { background-color: blue }"
+                                   "QPushButton:pressed { background-color: red }")
+
+        self.prevBtn.setStyleSheet("QPushButton { background-color: blue }"
+                                   "QPushButton:pressed { background-color: red }")
+
+        layout.addWidget(self.linkBtn, 5, 0)
         layout.addWidget(self.nextBtn, 5, 3)
-        layout.addWidget(self.darkBtn, 0, 5)
-        self.stack2.setLayout(layout)
+        layout.addWidget(self.prevBtn, 5, 2)
+        #layout.addWidget(self.darkBtn, 0, 5)
 
-        #self.stack2.setStyleSheet("background: red")
+        layout.setColumnMinimumWidth(0, 450)
+        layout.setColumnMinimumWidth(1, 50)
+        layout.setColumnMinimumWidth(2, 150)
+        layout.setColumnMinimumWidth(3, 50)
+        layout.setColumnMinimumWidth(4, 100)
+        self.stack2.setLayout(layout)
