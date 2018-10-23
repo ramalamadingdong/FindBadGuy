@@ -1,13 +1,13 @@
 """
 To Do: 1. Remove non ASCII text
        2. Make look Pretty (in Progress)
-       3. add extra features (count)
-       4. Maybe analysis? (#ofTweets, )
+       3. Save the settings (Dark / Light) Theme
+       4. Maybe analysis? (#ofTweets per User... ECT)
        5. make it display on first click
        6. Link to link (in tweet)
        7. Save button for tweets
-       8. Save the settings
-
+       8. Text bigger in Tweet Text
+       9. Make 1st screen display Tweets.
 """
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -30,7 +30,7 @@ class Main(QMainWindow, Ui_Main):
         self.index1 = 0
         self.submitBtn.clicked.connect(self.OpenWindow1)
         self.linkBtn.clicked.connect(self.openLink)
-
+        self.moreBtn.clicked.connect(self.extendedView)
 
     def OpenWindow1(self):
 
@@ -38,6 +38,7 @@ class Main(QMainWindow, Ui_Main):
         query = self.query.text()
         geo = self.query.text()
         self.getData(query, geo)
+        self.nextBadGuy()
         self.nextBtn.clicked.connect(self.nextBadGuy)
         self.prevBtn.clicked.connect(self.prevBadGuy)
 
@@ -53,9 +54,8 @@ class Main(QMainWindow, Ui_Main):
         queryI = queryT
 
         geocode = '40.006038,-105.257716,10mi'  # latitude,longitude,distance(mi/km)
-        queryI = 'drugs'
 
-        count = 9999
+        count = 100
 
         # make a Dict that has all fo the categorizes
 
@@ -108,8 +108,8 @@ class Main(QMainWindow, Ui_Main):
         self.usernameL.setText(self.dict_['username'][self.index1])
         self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
         self.bioL.setText(self.dict_['Bio'][self.index1])
-        self.dateL.setText(self.dict_['date'][self.index1])
-        self.textL.setText(self.dict_['text'][self.index1])
+    #    self.dateL.setText(self.dict_['date'][self.index1])
+    #    self.textL.setText(self.dict_['text'][self.index1])
         self.index1 = self.index1+1
 
         if self.darkBtn.isChecked():
@@ -126,8 +126,9 @@ class Main(QMainWindow, Ui_Main):
             self.stack2.setStyleSheet(self.BackColor)
 
         elif not self.darkBtn.isChecked():
-            self.BackColor = "background-color: #eee8d5;"
-            self.FontColor = "color: #657b83"
+
+            self.BackColor = "background-image: url(Light_Back.png);"
+            self.FontColor = "color: #002b36"
 
             self.textL.setStyleSheet(self.FontColor)
             self.dateL.setStyleSheet(self.FontColor)
@@ -151,6 +152,7 @@ class Main(QMainWindow, Ui_Main):
         self.index1 = self.index1+1
 
         if self.darkBtn.isChecked():
+
             self.BackColor = "background-color: #002b36;"
             self.FontColor = "color: #fdf6e3"
 
@@ -164,8 +166,9 @@ class Main(QMainWindow, Ui_Main):
             self.stack2.setStyleSheet(self.BackColor)
 
         elif not self.darkBtn.isChecked():
-            self.BackColor = "background-color: #eee8d5;"
-            self.FontColor = "color: #657b83"
+
+            self.BackColor = "background-image: url(Light_Back.png);"
+            self.FontColor = "color: #002b36"
 
             self.textL.setStyleSheet(self.FontColor)
             self.dateL.setStyleSheet(self.FontColor)
@@ -175,6 +178,17 @@ class Main(QMainWindow, Ui_Main):
             self.userL.setStyleSheet(self.FontColor)
 
             self.stack2.setStyleSheet(self.BackColor)
+
+    def extendedView(self):
+
+        if self.moreBtn.isChecked():
+            self.stack2.setFixedSize(1200, 480)
+
+            self.dateL.setText(self.dict_['date'][self.index1])
+            self.textL.setText(self.dict_['text'][self.index1])
+
+        if not self.moreBtn.isChecked():
+            self.stack2.setFixedSize(800, 480)
 
 
 if __name__ == '__main__':

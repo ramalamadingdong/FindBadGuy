@@ -43,14 +43,18 @@ class Ui_Main(QtWidgets.QWidget):
         self.stack1.setLayout(layout)
 
     def Window2UI(self):
-        self.FontColor = "color: #839496"
-        self.BackColor = "background-color: #fdf6e3;"
+
+        self.FontColor = ""
+        self.BackColor = ""
 
         self.stack2.setFixedSize(800, 480)
         self.stack2.setStyleSheet(self.BackColor)
 
         self.darkBtn = QtWidgets.QPushButton('Dark')
         self.darkBtn.setCheckable(True)
+
+        self.moreBtn = QtWidgets.QPushButton('More')
+        self.moreBtn.setCheckable(True)
 
         layout = QtWidgets.QGridLayout()
 
@@ -81,12 +85,12 @@ class Ui_Main(QtWidgets.QWidget):
         bioT.setStyleSheet(self.labelSheets)
         dateT.setStyleSheet(self.labelSheets)
 
-        layout.addWidget(userT, 0, 1, 0, 1, QtCore.Qt.AlignTop)
-        layout.addWidget(usernameT, 1, 1, 1, 1, QtCore.Qt.AlignTop)
-        layout.addWidget(bioT, 2, 1, 2, 1, QtCore.Qt.AlignTop)
+        layout.addWidget(userT, 0, 1, 0, 1, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
+        layout.addWidget(usernameT, 1, 1, 1, 1, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
+        layout.addWidget(bioT, 2, 1, 2, 1, QtCore.Qt.AlignTop| QtCore.Qt.AlignRight)
 
-        layout.addWidget(dateT, 0, 3, 0, 3, QtCore.Qt.AlignTop)
-        layout.addWidget(homeTownT, 1, 3, 1, 3, QtCore.Qt.AlignTop)
+        layout.addWidget(dateT, 0, 2, 0, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
+        layout.addWidget(homeTownT, 1, 2, 1, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
 
         self.userL = QtWidgets.QLabel()
         self.usernameL = QtWidgets.QLabel()
@@ -96,6 +100,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.textL = QtWidgets.QLabel()
 
         self.textL.setFixedWidth(350)
+        self.bioL.setFixedWidth(150)
 
         self.userL.setWordWrap(True)
         self.usernameL.setWordWrap(True)
@@ -106,13 +111,12 @@ class Ui_Main(QtWidgets.QWidget):
 
         layout.addWidget(self.textL, 0, 0, 0, 0, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
 
-
+        layout.addWidget(self.usernameL, 1, 2, 1, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
         layout.addWidget(self.userL, 0, 2, 0, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
-        layout.addWidget(self.usernameL, 1, 2, 1, 2, QtCore.Qt.AlignTop)
-        layout.addWidget(self.bioL, 2, 2, 2, 2, QtCore.Qt.AlignTop)
+        layout.addWidget(self.bioL, 2, 2, 2, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
 
-        layout.addWidget(self.homeTownL, 1, 4, 1, 4, QtCore.Qt.AlignTop)
-        layout.addWidget(self.dateL, 0, 4, 0, 4, QtCore.Qt.AlignTop)
+        layout.addWidget(self.homeTownL, 1, 4, 1, 4, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
+        layout.addWidget(self.dateL, 0, 4, 0, 4, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
 
         self.linkBtn.setStyleSheet("QPushButton { background-color: blue }"
                                    "QPushButton:pressed { background-color: red }")
@@ -124,13 +128,15 @@ class Ui_Main(QtWidgets.QWidget):
                                    "QPushButton:pressed { background-color: red }")
 
         layout.addWidget(self.linkBtn, 5, 0)
-        layout.addWidget(self.nextBtn, 5, 3)
-        layout.addWidget(self.prevBtn, 5, 2)
-        #layout.addWidget(self.darkBtn, 0, 5)
+        layout.addWidget(self.nextBtn, 5, 2)
+        layout.addWidget(self.prevBtn, 5, 1)
+        #layout.addWidget(self.darkBtn, 4, 3)
+        layout.addWidget(self.moreBtn, 4, 3)
 
         layout.setColumnMinimumWidth(0, 450)
-        layout.setColumnMinimumWidth(1, 50)
         layout.setColumnMinimumWidth(2, 150)
-        layout.setColumnMinimumWidth(3, 50)
         layout.setColumnMinimumWidth(4, 100)
+        layout.setColumnMinimumWidth(1, 50)
+        layout.setColumnMinimumWidth(3, 50)
+
         self.stack2.setLayout(layout)
