@@ -4,7 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Main(QtWidgets.QWidget):
     def setupUi(self, Main):
         Main.setObjectName("Main")
-        Main.resize(800, 480)
+        Main.resize(600, 480)
 
         self.QtStack = QtWidgets.QStackedLayout()
 
@@ -48,13 +48,11 @@ class Ui_Main(QtWidgets.QWidget):
         self.BackColor = ""
 
         self.stack2.setFixedSize(800, 480)
+
         self.stack2.setStyleSheet(self.BackColor)
 
         self.darkBtn = QtWidgets.QPushButton('Dark')
         self.darkBtn.setCheckable(True)
-
-        self.moreBtn = QtWidgets.QPushButton('More')
-        self.moreBtn.setCheckable(True)
 
         layout = QtWidgets.QGridLayout()
 
@@ -74,23 +72,24 @@ class Ui_Main(QtWidgets.QWidget):
         usernameT = QtWidgets.QLabel("Username:")
         bioT = QtWidgets.QLabel("Bio:")
 
-        homeTownT = QtWidgets.QLabel("Home:")
-        dateT = QtWidgets.QLabel("Date:")
+        self.homeTownT = QtWidgets.QLabel("Home:")
+        self.dateT = QtWidgets.QLabel("Date:")
 
         self.labelSheets = "color: #dc322f;"
 
         userT.setStyleSheet(self.labelSheets)
         usernameT.setStyleSheet(self.labelSheets)
-        homeTownT.setStyleSheet(self.labelSheets)
         bioT.setStyleSheet(self.labelSheets)
-        dateT.setStyleSheet(self.labelSheets)
+
+        self.homeTownT.setStyleSheet(self.labelSheets)
+        self.dateT.setStyleSheet(self.labelSheets)
 
         layout.addWidget(userT, 0, 1, 0, 1, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
         layout.addWidget(usernameT, 1, 1, 1, 1, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
         layout.addWidget(bioT, 2, 1, 2, 1, QtCore.Qt.AlignTop| QtCore.Qt.AlignRight)
 
-        layout.addWidget(dateT, 0, 2, 0, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
-        layout.addWidget(homeTownT, 1, 2, 1, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
+        layout.addWidget(self.dateT, 0, 2, 0, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
+        layout.addWidget(self.homeTownT, 1, 2, 1, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
 
         self.userL = QtWidgets.QLabel()
         self.usernameL = QtWidgets.QLabel()
@@ -108,6 +107,13 @@ class Ui_Main(QtWidgets.QWidget):
         self.bioL.setWordWrap(True)
         self.dateL.setWordWrap(True)
         self.textL.setWordWrap(True)
+
+        self.picL = QtWidgets.QLabel()
+
+
+        self.picL.show()
+
+        layout.addWidget(self.picL, 3, 0)
 
         layout.addWidget(self.textL, 0, 0, 0, 0, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
 
@@ -130,8 +136,6 @@ class Ui_Main(QtWidgets.QWidget):
         layout.addWidget(self.linkBtn, 5, 0)
         layout.addWidget(self.nextBtn, 5, 2)
         layout.addWidget(self.prevBtn, 5, 1)
-        #layout.addWidget(self.darkBtn, 4, 3)
-        layout.addWidget(self.moreBtn, 4, 3)
 
         layout.setColumnMinimumWidth(0, 450)
         layout.setColumnMinimumWidth(2, 150)

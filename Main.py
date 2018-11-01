@@ -3,11 +3,10 @@ To Do: 1. Remove non ASCII text
        2. Make look Pretty (in Progress)
        3. Save the settings (Dark / Light) Theme
        4. Maybe analysis? (#ofTweets per User... ECT)
-       5. make it display on first click
+       5. make it display on first click (COMPLETE)
        6. Link to link (in tweet)
        7. Save button for tweets
        8. Text bigger in Tweet Text
-       9. Make 1st screen display Tweets.
 """
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -17,6 +16,7 @@ import pandas as pd
 from pandas import DataFrame
 from twython import Twython
 import webbrowser
+from selenium import webdriver
 
 from ui_Main import Ui_Main
 
@@ -26,11 +26,10 @@ class Main(QMainWindow, Ui_Main):
     def __init__(self, parent=None):
         super(Main, self).__init__(parent)
         self.setupUi(self)
-
+        self.pic = ""
         self.index1 = 0
         self.submitBtn.clicked.connect(self.OpenWindow1)
         self.linkBtn.clicked.connect(self.openLink)
-        self.moreBtn.clicked.connect(self.extendedView)
 
     def OpenWindow1(self):
 
@@ -104,22 +103,44 @@ class Main(QMainWindow, Ui_Main):
         webbrowser.open(self.dict_['ID'][self.index1-1])  # Go to example.com
 
     def nextBadGuy(self):
+
+        options = webdriver.ChromeOptions()
+        options.add_argument('headless')
+        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
+
+        driver.set_window_size(1920, 1080)  # set the window size that you need
+        driver.get(self.dict_['ID'][self.index1])
+        driver.save_screenshot('currentTweet.png')
+        driver.quit()
+
+        pixmap = QtGui.QPixmap('currentTweet.png')
+        rect = QtCore.QRect(650, 100, 600, 500)
+        cropped = pixmap.copy(rect)
+        pic_reszied = cropped.scaled(380, 250)
+
+        self.picL.setPixmap(pic_reszied)
+
         self.userL.setText(self.dict_['user'][self.index1])
         self.usernameL.setText(self.dict_['username'][self.index1])
-        self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
+
         self.bioL.setText(self.dict_['Bio'][self.index1])
-    #    self.dateL.setText(self.dict_['date'][self.index1])
-    #    self.textL.setText(self.dict_['text'][self.index1])
+        self.textL.setText(self.dict_['text'][self.index1])
+
+        self.dateL.setText(self.dict_['date'][self.index1])
+        self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
+
         self.index1 = self.index1+1
 
         if self.darkBtn.isChecked():
             self.BackColor = "background-color: #002b36;"
             self.FontColor = "color: #fdf6e3"
 
-            self.textL.setStyleSheet(self.FontColor)
-            self.dateL.setStyleSheet(self.FontColor)
             self.bioL.setStyleSheet(self.FontColor)
+            self.textL.setStyleSheet(self.FontColor)
+
+            self.dateL.setStyleSheet(self.FontColor)
             self.homeTownL.setStyleSheet(self.FontColor)
+
             self.usernameL.setStyleSheet(self.FontColor)
             self.userL.setStyleSheet(self.FontColor)
 
@@ -127,7 +148,7 @@ class Main(QMainWindow, Ui_Main):
 
         elif not self.darkBtn.isChecked():
 
-            self.BackColor = "background-image: url(Light_Back.png);"
+            self.BackColor = "background-color: #fdf6e3;"
             self.FontColor = "color: #002b36"
 
             self.textL.setStyleSheet(self.FontColor)
@@ -149,6 +170,7 @@ class Main(QMainWindow, Ui_Main):
         self.bioL.setText(self.dict_['Bio'][self.index1])
         self.dateL.setText(self.dict_['date'][self.index1])
         self.textL.setText(self.dict_['text'][self.index1])
+
         self.index1 = self.index1+1
 
         if self.darkBtn.isChecked():
@@ -167,7 +189,7 @@ class Main(QMainWindow, Ui_Main):
 
         elif not self.darkBtn.isChecked():
 
-            self.BackColor = "background-image: url(Light_Back.png);"
+            self.BackColor = "background-color: #fdf6e3;"
             self.FontColor = "color: #002b36"
 
             self.textL.setStyleSheet(self.FontColor)
@@ -178,18 +200,6 @@ class Main(QMainWindow, Ui_Main):
             self.userL.setStyleSheet(self.FontColor)
 
             self.stack2.setStyleSheet(self.BackColor)
-
-    def extendedView(self):
-
-        if self.moreBtn.isChecked():
-            self.stack2.setFixedSize(1200, 480)
-
-            self.dateL.setText(self.dict_['date'][self.index1])
-            self.textL.setText(self.dict_['text'][self.index1])
-
-        if not self.moreBtn.isChecked():
-            self.stack2.setFixedSize(800, 480)
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
