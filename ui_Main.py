@@ -69,7 +69,7 @@ class Ui_Main(QtWidgets.QWidget):
         self.prevBtn.setGeometry(QtCore.QRect(10, 10, 100, 100))
 
         self.showPic = QtWidgets.QPushButton(self.stack2)
-        self.showPic.setText("Show Pic")
+        self.showPic.setText("ScreenCap")
         self.showPic.setCheckable(True)
         self.showPic.setGeometry(QtCore.QRect(10, 10, 100, 100))
 
