@@ -1,12 +1,13 @@
 """
-To Do: 1. Remove non ASCII text
+To Do: 1. Remove non ASCII text (COMPLETE)
        2. Make look Pretty (in Progress)
        3. Save the settings (Dark / Light) Theme
        4. Maybe analysis? (#ofTweets per User... ECT)
        5. make it display on first click (COMPLETE)
        6. Link to link (in tweet)
        7. Save button for tweets
-       8. Text bigger in Tweet Text
+       8. Text bigger in Tweet Text (COMPLETE)
+       9. Make it Display Picture (COMPLETE)
 """
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow
@@ -17,6 +18,7 @@ from pandas import DataFrame
 from twython import Twython
 import webbrowser
 from selenium import webdriver
+
 
 from ui_Main import Ui_Main
 
@@ -40,6 +42,7 @@ class Main(QMainWindow, Ui_Main):
         self.nextBadGuy()
         self.nextBtn.clicked.connect(self.nextBadGuy)
         self.prevBtn.clicked.connect(self.prevBadGuy)
+        self.showPic.clicked.connect(self.showPicture)
 
     def getData(self, queryT, geoT):
         with open("twitter_creds.JSON", "r") as file:
@@ -67,6 +70,15 @@ class Main(QMainWindow, Ui_Main):
                 python_tweets.search(q=queryI, geocode=geocode, count=count, include_entities=True,
                                      tweet_mode='extended')[
                     'statuses']:
+            status['user']['name']        = self.strip_non_ascii(status['user']['name'])
+            status['user']['screen_name'] = self.strip_non_ascii(status['user']['screen_name'])
+            status['user']['description'] = self.strip_non_ascii(status['user']['description'])
+            status['user']['location']    = self.strip_non_ascii(status['user']['location'])
+            status['full_text']           = self.strip_non_ascii(status['full_text'])
+            status['user']['location']    = self.strip_non_ascii(status['user']['location'])
+            status['created_at']          = self.strip_non_ascii(status['created_at'])
+
+
             self.dict_['user'].append(status['user']['name'])
             self.dict_['username'].append(status['user']['screen_name'])
             self.dict_['Bio'].append(status['user']['description'])
@@ -78,14 +90,15 @@ class Main(QMainWindow, Ui_Main):
             self.dict_['ID'].append(specTweetLi)
 
             self.dict_['text'].append(status['full_text'])
-            self.dict_['geo_E'].append(
-                status['user']['geo_enabled'])  # lets us know if another tweet from user might give us a location.
+            self.dict_['geo_E'].append(status['user']['geo_enabled'])  # lets us know if another tweet from user might give us a location.
             self.dict_['location'].append(status['user']['location'])
             self.dict_['coordinates'].append(status['coordinates'])
             var4 = str(status['place'])
             index = var4.find('full_name')
             self.dict_['place'].append(var4[(index + 11):(index + 30)])
             self.dict_['date'].append(status['created_at'])
+
+
 
         # Structure data in a pandas DataFrame for easier writing to Excel
         df: DataFrame = pd.DataFrame(self.dict_)
@@ -104,21 +117,8 @@ class Main(QMainWindow, Ui_Main):
 
     def nextBadGuy(self):
 
-        options = webdriver.ChromeOptions()
-        options.add_argument('headless')
-        driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
-
-        driver.set_window_size(1920, 1080)  # set the window size that you need
-        driver.get(self.dict_['ID'][self.index1])
-        driver.save_screenshot('currentTweet.png')
-        driver.quit()
-
-        pixmap = QtGui.QPixmap('currentTweet.png')
-        rect = QtCore.QRect(650, 100, 600, 500)
-        cropped = pixmap.copy(rect)
-        pic_reszied = cropped.scaled(380, 250)
-
-        self.picL.setPixmap(pic_reszied)
+        self.showPic.setChecked(False)
+        self.picL.hide()
 
         self.userL.setText(self.dict_['user'][self.index1])
         self.usernameL.setText(self.dict_['username'][self.index1])
@@ -128,6 +128,8 @@ class Main(QMainWindow, Ui_Main):
 
         self.dateL.setText(self.dict_['date'][self.index1])
         self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
+
+        self.geoL.setText(str(self.dict_['geo_E'][self.index1]))
 
         self.index1 = self.index1+1
 
@@ -144,6 +146,9 @@ class Main(QMainWindow, Ui_Main):
             self.usernameL.setStyleSheet(self.FontColor)
             self.userL.setStyleSheet(self.FontColor)
 
+
+            self.geoL.setStyleSheet(self.FontColor)
+
             self.stack2.setStyleSheet(self.BackColor)
 
         elif not self.darkBtn.isChecked():
@@ -157,6 +162,9 @@ class Main(QMainWindow, Ui_Main):
             self.homeTownL.setStyleSheet(self.FontColor)
             self.usernameL.setStyleSheet(self.FontColor)
             self.userL.setStyleSheet(self.FontColor)
+
+
+            self.geoL.setStyleSheet(self.FontColor)
 
             self.stack2.setStyleSheet(self.BackColor)
 
@@ -164,12 +172,17 @@ class Main(QMainWindow, Ui_Main):
 
         self.index1 = self.index1 - 2
 
+        self.showPic.setChecked(False)
+        self.picL.hide()
+
         self.userL.setText(self.dict_['user'][self.index1])
         self.usernameL.setText(self.dict_['username'][self.index1])
         self.homeTownL.setText(self.dict_['HomeTown'][self.index1])
         self.bioL.setText(self.dict_['Bio'][self.index1])
         self.dateL.setText(self.dict_['date'][self.index1])
-        self.textL.setText(self.dict_['text'][self.index1])
+        self.textL.setText(str(self.dict_['text'][self.index1]))
+
+        self.geoL.setText(str(self.dict_['geo_E'][self.index1]))
 
         self.index1 = self.index1+1
 
@@ -185,6 +198,8 @@ class Main(QMainWindow, Ui_Main):
             self.usernameL.setStyleSheet(self.FontColor)
             self.userL.setStyleSheet(self.FontColor)
 
+            self.geoL.setStyleSheet(self.FontColor)
+
             self.stack2.setStyleSheet(self.BackColor)
 
         elif not self.darkBtn.isChecked():
@@ -199,7 +214,41 @@ class Main(QMainWindow, Ui_Main):
             self.usernameL.setStyleSheet(self.FontColor)
             self.userL.setStyleSheet(self.FontColor)
 
+            self.geoL.setStyleSheet(self.FontColor)
+
             self.stack2.setStyleSheet(self.BackColor)
+
+    def showPicture(self):
+
+        if self.showPic.isChecked():
+
+            options = webdriver.ChromeOptions()
+            options.add_argument('headless')
+            driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", chrome_options=options)
+
+            driver.set_window_size(1920, 1080)  # set the window size that you need
+            self.index1 = self.index1 -1
+            driver.get(self.dict_['ID'][self.index1])
+            driver.save_screenshot('currentTweet.png')
+            driver.quit()
+
+            pixmap = QtGui.QPixmap('currentTweet.png')
+            rect = QtCore.QRect(650, 100, 600, 500)
+            cropped = pixmap.copy(rect)
+            pic_reszied = cropped.scaled(380, 250)
+
+            self.picL.show()
+            self.picL.setPixmap(pic_reszied)
+            self.index1 = self.index1 +1
+
+        elif not self.showPic.isChecked():
+            self.picL.hide()
+
+    def strip_non_ascii(self, string):
+        ''' Returns the string without non ASCII characters'''
+        stripped = (c for c in string if 0 < ord(c) < 127)
+        return ''.join(stripped)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

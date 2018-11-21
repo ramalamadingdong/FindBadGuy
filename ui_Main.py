@@ -68,6 +68,12 @@ class Ui_Main(QtWidgets.QWidget):
         self.prevBtn.setText("Previous")
         self.prevBtn.setGeometry(QtCore.QRect(10, 10, 100, 100))
 
+        self.showPic = QtWidgets.QPushButton(self.stack2)
+        self.showPic.setText("Show Pic")
+        self.showPic.setCheckable(True)
+        self.showPic.setGeometry(QtCore.QRect(10, 10, 100, 100))
+
+
         userT = QtWidgets.QLabel("User:")
         usernameT = QtWidgets.QLabel("Username:")
         bioT = QtWidgets.QLabel("Bio:")
@@ -75,11 +81,15 @@ class Ui_Main(QtWidgets.QWidget):
         self.homeTownT = QtWidgets.QLabel("Home:")
         self.dateT = QtWidgets.QLabel("Date:")
 
+        self.geoT = QtWidgets.QLabel("Geo:")
+
         self.labelSheets = "color: #dc322f;"
 
         userT.setStyleSheet(self.labelSheets)
         usernameT.setStyleSheet(self.labelSheets)
         bioT.setStyleSheet(self.labelSheets)
+
+        self.geoT.setStyleSheet(self.labelSheets)
 
         self.homeTownT.setStyleSheet(self.labelSheets)
         self.dateT.setStyleSheet(self.labelSheets)
@@ -91,12 +101,16 @@ class Ui_Main(QtWidgets.QWidget):
         layout.addWidget(self.dateT, 0, 2, 0, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
         layout.addWidget(self.homeTownT, 1, 2, 1, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
 
+        layout.addWidget(self.geoT, 2, 2, 2, 2, QtCore.Qt.AlignTop | QtCore.Qt.AlignRight)
+
         self.userL = QtWidgets.QLabel()
         self.usernameL = QtWidgets.QLabel()
         self.homeTownL = QtWidgets.QLabel()
         self.bioL = QtWidgets.QLabel()
         self.dateL = QtWidgets.QLabel()
         self.textL = QtWidgets.QLabel()
+
+        self.geoL = QtWidgets.QLabel()
 
         self.textL.setFixedWidth(350)
         self.bioL.setFixedWidth(150)
@@ -107,9 +121,8 @@ class Ui_Main(QtWidgets.QWidget):
         self.bioL.setWordWrap(True)
         self.dateL.setWordWrap(True)
         self.textL.setWordWrap(True)
-
+        self.textL.setFont(QtGui.QFont("Helvetica", 16))
         self.picL = QtWidgets.QLabel()
-
 
         self.picL.show()
 
@@ -124,6 +137,8 @@ class Ui_Main(QtWidgets.QWidget):
         layout.addWidget(self.homeTownL, 1, 4, 1, 4, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
         layout.addWidget(self.dateL, 0, 4, 0, 4, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
 
+        layout.addWidget(self.geoL, 2, 4, 2, 4, QtCore.Qt.AlignTop | QtCore.Qt.AlignLeft)
+
         self.linkBtn.setStyleSheet("QPushButton { background-color: blue }"
                                    "QPushButton:pressed { background-color: red }")
 
@@ -136,6 +151,8 @@ class Ui_Main(QtWidgets.QWidget):
         layout.addWidget(self.linkBtn, 5, 0)
         layout.addWidget(self.nextBtn, 5, 2)
         layout.addWidget(self.prevBtn, 5, 1)
+
+        layout.addWidget(self.showPic, 4, 0)
 
         layout.setColumnMinimumWidth(0, 450)
         layout.setColumnMinimumWidth(2, 150)
