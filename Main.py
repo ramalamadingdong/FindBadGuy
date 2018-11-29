@@ -37,7 +37,7 @@ class Main(QMainWindow, Ui_Main):
 
         self.QtStack.setCurrentIndex(1)
         query = self.query.text()
-        geo = self.query.text()
+        geo = self.geo.text()
         self.getData(query, geo)
         self.nextBadGuy()
         self.nextBtn.clicked.connect(self.nextBadGuy)
@@ -55,8 +55,8 @@ class Main(QMainWindow, Ui_Main):
         geocode = geoT
         queryI = queryT
 
-        geocode = '40.006038,-105.257716,10mi'  # latitude,longitude,distance(mi/km)
-
+    #    geocode = '40.006038,-105.257716,10mi'  # latitude,longitude,distance(mi/km)
+        print(geocode)
         count = 100
 
         # make a Dict that has all fo the categorizes
