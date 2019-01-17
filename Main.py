@@ -32,7 +32,6 @@ class Main(QMainWindow, Ui_Main):
         self.index1 = 0
         self.submitBtn.clicked.connect(self.OpenWindow1)
         self.linkBtn.clicked.connect(self.openLink)
-
     def OpenWindow1(self):
 
         self.QtStack.setCurrentIndex(1)
@@ -52,7 +51,7 @@ class Main(QMainWindow, Ui_Main):
         python_tweets = Twython(creds['CONSUMER_KEY'], creds['CONSUMER_SECRET'], creds['ACCESS_TOKEN'],
                                 creds['ACCESS_SECRET'])
 
-        geocode = geoT
+        geocode = geoT.replace(" ", "")
         queryI = queryT
 
     #    geocode = '40.006038,-105.257716,10mi'  # latitude,longitude,distance(mi/km)
@@ -99,7 +98,6 @@ class Main(QMainWindow, Ui_Main):
             self.dict_['date'].append(status['created_at'])
 
 
-
         # Structure data in a pandas DataFrame for easier writing to Excel
         df: DataFrame = pd.DataFrame(self.dict_)
         df.sort_values(by='date', inplace=True, ascending=True)
@@ -109,7 +107,7 @@ class Main(QMainWindow, Ui_Main):
         Sfile = str(
             python_tweets.search(q=queryI, geocode=geocode, count=count, include_entities=True, tweet_mode='extended'))
         f = open('JSON.txt', 'w')
-        f.write(Sfile)
+        #f.write(Sfile)
         f.close()
 
     def openLink(self):
@@ -119,7 +117,11 @@ class Main(QMainWindow, Ui_Main):
 
         self.showPic.setChecked(False)
         self.picL.hide()
-
+        if not self.dict_['user']:
+            choice = QtWidgets.QMessageBox.question(self, 'Error!',
+                                                "No Tweets Found\n"
+                                                "Check your Geo / Query and try again",
+                                                    QtWidgets.QMessageBox.Ok)
         self.userL.setText(self.dict_['user'][self.index1])
         self.usernameL.setText(self.dict_['username'][self.index1])
 
